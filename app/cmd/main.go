@@ -2,15 +2,11 @@ package main
 
 import (
 	"GoStorageService/internal/app"
-
-	"github.com/sirupsen/logrus"
+	"GoStorageService/pkg"
 )
 
 func init() {
-	logrus.SetFormatter(&logrus.TextFormatter{
-		DisableColors: false,
-		FullTimestamp: false,
-	})
+	pkg.ConfigLog()
 }
 
 func main() {

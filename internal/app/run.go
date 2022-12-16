@@ -13,6 +13,8 @@ import (
 func SetUpRoutes(app *fiber.App) {
 	v1 := app.Group("/api/v1/")
 	v1.Get("", routes.Home)
+	v1.Post("/adding", routes.AddData)
+	//v1.Get("/retrieved", routes.AddData)
 }
 
 func Run() {
@@ -23,7 +25,7 @@ func Run() {
 		Prefork:     true,
 	})
 
-	app.Use(logger.New(), middleware.CheckJwtToken())
+	app.Use(logger.New(), middleware.CheckJwtToken(), middleware.CheckContentType())
 
 	SetUpRoutes(app)
 
