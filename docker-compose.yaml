@@ -1,0 +1,34 @@
+version: '3'
+
+# Create a proxy gateway
+
+networks:
+  in.net.ex:
+    driver: bridge
+
+services:
+  go-storage:
+    build: .
+    container_name: storage-service.in.net.ex
+    environment: 
+      - JWT_SEED=SECRET
+    ports:
+      - 8080:8080
+    depends_on:
+      - storage-db.in.net.ex
+    networks:
+      - in.net.ex
+
+  storage-db.in.net.ex:
+      restart: always
+      image: postgres:latest
+      container_name: storage-db.in.net.ex
+      environment:
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=qwerty
+        - PGDATA=/var/lib/postgresql/data/pgdata
+      ports:
+        - 5432:5432
+      networks:
+        - in.net.ex
