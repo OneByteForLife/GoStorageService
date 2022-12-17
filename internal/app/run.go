@@ -3,6 +3,7 @@ package app
 import (
 	"GoStorageService/internal/middleware"
 	"GoStorageService/internal/routes"
+	"time"
 
 	gojson "github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
@@ -13,19 +14,22 @@ import (
 func SetUpRoutes(app *fiber.App) {
 	v1 := app.Group("/api/v1/")
 	v1.Get("", routes.Home)
-	v1.Post("/adding", routes.AddData)
+	v1.Post("/adding", routes.AddData, middleware.CheckContentType())
 	//v1.Get("/retrieved", routes.AddData)
 }
 
 func Run() {
+	// Конифгурация сервера
 	app := fiber.New(fiber.Config{
-		AppName:     "GoStorageService",
-		JSONDecoder: gojson.Unmarshal,
-		JSONEncoder: gojson.Marshal,
-		Prefork:     true,
+		AppName:      "GoStorageService",
+		JSONDecoder:  gojson.Unmarshal,
+		JSONEncoder:  gojson.Marshal,
+		Prefork:      true,
+		ReadTimeout:  time.Second * 10,
+		WriteTimeout: time.Second * 10,
 	})
 
-	app.Use(logger.New(), middleware.CheckJwtToken(), middleware.CheckContentType())
+	app.Use(logger.New(), middleware.CheckJwtToken())
 
 	SetUpRoutes(app)
 

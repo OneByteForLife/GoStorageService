@@ -15,8 +15,6 @@ func RespStatus(apiVersion string, statusCode int, description string, content i
 	}
 }
 
-var data []models.Data
-
 func Home(c *fiber.Ctx) error {
 	c.Set(fiber.HeaderContentType, fiber.MIMEApplicationJSONCharsetUTF8)
 
@@ -30,9 +28,9 @@ func AddData(c *fiber.Ctx) error {
 
 	if status, massage := models.AddingData(c.Body(), c.Query("market"), c.Query("category")); !status {
 		return c.Status(fiber.StatusBadRequest).JSON(RespStatus("1.0", fiber.StatusBadRequest, massage, nil))
+	} else {
+		return c.Status(fiber.StatusOK).JSON(RespStatus("1.0", fiber.StatusOK, massage, nil))
 	}
-
-	return c.Status(fiber.StatusOK).JSON(RespStatus("1.0", fiber.StatusOK, "Success Adding", nil))
 }
 
 func FindData(c *fiber.Ctx) error {

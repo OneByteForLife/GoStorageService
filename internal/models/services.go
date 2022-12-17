@@ -1,20 +1,17 @@
 package models
 
 import (
-	"fmt"
-
 	gojson "github.com/goccy/go-json"
 	"github.com/sirupsen/logrus"
 )
 
-// Слайс из маркетов
+// Использовать в проверке параметров запроса
 var (
-	markets []string = []string{"sbazar"}
-)
-
-// Слайс из категорий
-var (
-	categorys []string = []string{"electronics"}
+	dats map[string][]string = map[string][]string{
+		"sbazar": {
+			"electronics",
+		},
+	}
 )
 
 // Общая структура для обработки данных (Как для принятия так и для отдачи)
@@ -33,6 +30,7 @@ type Data struct {
 	} `json:"product_data"`
 }
 
+// Добавление данных
 func AddingData(payload []byte, market string, category string) (bool, string) {
 	var data []Data
 
@@ -47,33 +45,33 @@ func AddingData(payload []byte, market string, category string) (bool, string) {
 	}
 
 	/*
-		Добовление данных в базу отталкиваясь от Query параметров
+		Добовление данных в базу отталкиваясь от Query параметров (СПРОЕКТИРОВАТЬ БАЗУ)
 	*/
 
-	out, _ := gojson.Marshal(&data)
-	fmt.Println(string(out))
+	// out, _ := gojson.Marshal(&data)
+	// fmt.Println(string(out))
 
-	return true, ""
+	return true, "Success Adding"
 }
 
+// Проверка параметров URL
 func CheckUrlQuery(market string, category string) bool {
 	if market == "" || category == "" {
 		return false
 	}
+
+	if len(dats[market]) == 0 {
+		return false
+	}
+
 	var status bool
-	for _, valMarket := range markets {
-		if valMarket == market {
+	for _, val := range dats[market] {
+		if val == category {
 			status = true
-			for _, valCategory := range categorys {
-				if valCategory == category {
-					status = true
-				} else {
-					status = false
-				}
-			}
 		} else {
 			status = false
 		}
 	}
+
 	return status
 }
