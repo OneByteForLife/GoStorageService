@@ -11,9 +11,13 @@ import (
 
 // Использовать в проверке параметров запроса
 var (
-	dats map[string][]string = map[string][]string{
+	markets map[string][]string = map[string][]string{
 		"sbazar": {
 			"electronics",
+			"sport",
+			"babymom",
+			"hobby",
+			"clothing",
 		},
 	}
 )
@@ -56,11 +60,12 @@ func AddingData(payload []byte, market string, category string) (bool, string) {
 
 	RemoveData(db, data, market, category)
 
-	if status, massage := AddData(db, data, market, category); !status {
+	status, massage := InsertData(db, data, market, category)
+	if !status {
 		return status, massage
 	}
 
-	return true, "Success Adding"
+	return status, massage
 }
 
 // Реализованна для того чтобы пока нет реализации по обновлению данных в базе не получать дублирование результатов
@@ -72,8 +77,8 @@ func RemoveData(db *sql.DB, data []Data, market string, category string) {
 	}
 }
 
-// Добавление новых данных
-func AddData(db *sql.DB, data []Data, market string, category string) (bool, string) {
+// Добавление в базу
+func InsertData(db *sql.DB, data []Data, market string, category string) (bool, string) {
 	query := fmt.Sprintf(
 		"INSERT INTO %s_%s (user_name, registration_date, phone_number, product_name, product_photo_url, product_price, product_description, product_url) VALUES($1, $2, $3, $4, $5, $6, $7, $8)", market, category)
 	for _, val := range data {
@@ -84,7 +89,7 @@ func AddData(db *sql.DB, data []Data, market string, category string) (bool, str
 		}
 	}
 	logrus.Infof("The %s_%s table has been updated with the following data", market, category)
-	return true, ""
+	return true, "Success Adding"
 }
 
 // Проверка параметров URL
@@ -93,18 +98,67 @@ func CheckUrlQuery(market string, category string) bool {
 		return false
 	}
 
-	if len(dats[market]) == 0 {
+	if len(markets[market]) == 0 {
 		return false
 	}
 
-	var status bool
-	for _, val := range dats[market] {
+	var status bool = false
+	for _, val := range markets[market] {
 		if val == category {
 			status = true
-		} else {
-			status = false
+			return status
 		}
 	}
 
 	return status
+}
+
+// Получение данных
+func FindingData(market string, category string) (bool, string, []Data) {
+	if status := CheckUrlQuery(market, category); !status {
+		logrus.Warn("The parameters from the service were not correct")
+		return false, "Incorrect url query", nil
+	}
+
+	db, err := database.ConnectDataBase()
+	if err != nil {
+		return false, "Storage is not connected", nil
+	}
+	defer db.Close()
+
+	status, massage, data := SelectAllData(db, market, category)
+	if !status {
+		return status, massage, nil
+	}
+
+	return status, massage, data
+}
+
+// Выборка из базы
+func SelectAllData(db *sql.DB, market string, category string) (bool, string, []Data) {
+	var data []Data
+
+	query := fmt.Sprintf("SELECT user_name, registration_date, phone_number, product_name, product_photo_url, product_price, product_description, product_url FROM %s_%s", market, category)
+	rows, err := db.Query(query)
+	if err != nil {
+		logrus.Errorf("Err select data in %s_%s - %s", market, category, err)
+		return false, "Err searching data", nil
+	}
+
+	for rows.Next() {
+		var prod Data
+		rows.Scan(&prod.User.Name, &prod.User.DateRegistr, &prod.User.PhoneNumber, &prod.Products.ProdName, &prod.Products.PhotoUrl, &prod.Products.Price, &prod.Products.Description, &prod.Products.Url)
+		data = append(data, prod)
+	}
+
+	if err := rows.Err(); err != nil {
+		logrus.Errorf("Err scan row - %s", err)
+		return false, "No data", nil
+	}
+
+	if data == nil {
+		return false, "No data", data
+	}
+
+	return true, "Success", data
 }

@@ -36,7 +36,9 @@ func AddData(c *fiber.Ctx) error {
 func FindData(c *fiber.Ctx) error {
 	c.Set(fiber.HeaderContentType, fiber.MIMEApplicationJSONCharsetUTF8)
 
-	// Логика по получению данных из базы
-
-	return c.Status(fiber.StatusOK).JSON(RespStatus("1.0", fiber.StatusOK, "Success", nil))
+	if status, massage, out := models.FindingData(c.Query("market"), c.Query("category")); !status {
+		return c.Status(fiber.StatusOK).JSON(RespStatus("1.0", fiber.StatusOK, massage, out))
+	} else {
+		return c.Status(fiber.StatusOK).JSON(RespStatus("1.0", fiber.StatusOK, massage, out))
+	}
 }

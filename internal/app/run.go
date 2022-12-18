@@ -14,8 +14,8 @@ import (
 func SetUpRoutes(app *fiber.App) {
 	v1 := app.Group("/api/v1/")
 	v1.Get("", routes.Home)
-	v1.Post("/adding", routes.AddData, middleware.CheckContentType())
-	//v1.Get("/retrieved", routes.AddData)
+	v1.Post("/add", routes.AddData, middleware.CheckContentType())
+	v1.Get("/get", routes.FindData)
 }
 
 func Run() {
@@ -23,7 +23,7 @@ func Run() {
 	app := fiber.New(fiber.Config{
 		JSONDecoder: gojson.Unmarshal,
 		JSONEncoder: gojson.Marshal,
-		// Prefork:      true, (Не работае в Alpine Linux который я используя из за его легковестности)
+		// Prefork:      true, (Не работае в Alpine Linux который я используя из за его легковестности) при сборке в Docker
 		ReadTimeout:  time.Second * 10,
 		WriteTimeout: time.Second * 10,
 	})
