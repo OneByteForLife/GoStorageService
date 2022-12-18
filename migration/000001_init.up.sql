@@ -9,7 +9,7 @@ CREATE TABLE users_telegram
 CREATE TABLE sbazar_electronics
 (
     id serial not null unique,
-    sellers_name varchar(255),
+    user_name varchar(255),
     registration_date varchar(255),
     phone_number varchar(25),
     product_name varchar(255),

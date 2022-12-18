@@ -8,6 +8,13 @@ require (
 	github.com/sirupsen/logrus v1.9.0
 )
 
+require github.com/lib/pq v1.10.7
+
+require (
+	gopkg.in/yaml.v2 v2.4.0
+	gopkg.in/yaml.v3 v3.0.1 // indirect
+)
+
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/gofiber/jwt/v2 v2.2.7

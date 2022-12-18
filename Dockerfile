@@ -10,4 +10,7 @@ RUN go mod tidy && \
 
 FROM alpine:3.10
 COPY --from=builder /go-storage /bin
-CMD ["sh", "-c", "/go-storage"]
+
+# Так как при конфигурации сервера я использовал параметр 
+#   Prefork чистать тут -> https://docs.gofiber.io/api/fiber, то требуется использовать CMD.
+CMD ["sh", "-c", "/bin/go-storage"]

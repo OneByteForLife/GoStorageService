@@ -21,10 +21,9 @@ func SetUpRoutes(app *fiber.App) {
 func Run() {
 	// Конифгурация сервера
 	app := fiber.New(fiber.Config{
-		AppName:      "GoStorageService",
-		JSONDecoder:  gojson.Unmarshal,
-		JSONEncoder:  gojson.Marshal,
-		Prefork:      true,
+		JSONDecoder: gojson.Unmarshal,
+		JSONEncoder: gojson.Marshal,
+		// Prefork:      true, (Не работае в Alpine Linux который я используя из за его легковестности)
 		ReadTimeout:  time.Second * 10,
 		WriteTimeout: time.Second * 10,
 	})
