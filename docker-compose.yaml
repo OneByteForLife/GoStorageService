@@ -15,12 +15,22 @@ services:
     volumes:
       - ./internal/config/config.yaml:/config.yaml:ro
     depends_on:
-      - storage-db.in.net.ex
+      - storage-db
+    networks:
+      - in.net.ex
+  # Инструкции для парсера Sbazar
+  go-async-sbazar:
+    build: ./GoAsyncSbazarParcer/
+    container_name: sbazar-service.in.net.ex
+    volumes:
+      - ./GoAsyncSbazarParcer/internal/config/config.yaml:/config.yaml:ro
+    depends_on:
+      - go-storage
     networks:
       - in.net.ex
 
 # Специально не пракинул Volume для комфортных тестов добавления данных.
-  storage-db.in.net.ex:
+  storage-db:
       restart: always
       image: postgres:latest
       container_name: storage-db.in.net.ex
