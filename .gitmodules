@@ -1,10 +1,5 @@
 [submodule "GoAsyncSbazarParcer"]
 	path = GoAsyncSbazarParcer
 	url = https://github.com/nameerror3301/GoAsyncSbazarParcer
-[submodule "preparer_go"]
-	path = 
-	url = 
-[submodule "storage_go"]
-	path = 
-	url =
+
 
