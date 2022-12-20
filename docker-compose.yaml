@@ -29,7 +29,16 @@ services:
     networks:
       - in.net.ex
 
-# Специально не пракинул Volume для комфортных тестов добавления данных.
+  go-async-wallapop:
+    build: ./GoAsyncWallapopParcer/
+    container_name: wallapop-service.in.net.ex
+    volumes:
+      - ./GoAsyncWallapopParcer/internal/config/config.yaml:/config.yaml:ro
+    depends_on:
+      - go-storage
+    networks:
+      - in.net.ex
+
   storage-db:
       restart: always
       image: postgres:latest

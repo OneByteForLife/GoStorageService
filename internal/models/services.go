@@ -19,6 +19,13 @@ var (
 			"hobby",
 			"clothing",
 		},
+		"wallapop": {
+			"electronics",
+			"cars",
+			"motos",
+			"home",
+			"phototv",
+		},
 	}
 )
 
