@@ -26,6 +26,13 @@ var (
 			"home",
 			"phototv",
 		},
+		"jofogas": {
+			"electronics",
+			"sport",
+			"babymom",
+			"hobby",
+			"clothing",
+		},
 	}
 )
 

@@ -11,11 +11,6 @@ import (
 func init() {
 	pkg.ConfigLog()
 	// Проверка подключения к базе
-	if db, err := database.ConnectDataBase(); db == nil || err != nil {
-		logrus.Warnf("No connection to the base was established -%s", err)
-	} else {
-		db.Close()
-	}
 }
 
 func main() {

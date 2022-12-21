@@ -2,3 +2,6 @@
 	path = GoAsyncSbazarParcer
 	url = https://github.com/nameerror3301/GoAsyncSbazarParcer.git
 
+[submodule "GoAsyncJofogasParcer"]
+	path = GoAsyncJofogasParcer
+	url = https://github.com/nameerror3301/GoAsyncJofogasParcer.git

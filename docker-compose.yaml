@@ -15,9 +15,10 @@ services:
     volumes:
       - ./internal/config/config.yaml:/config.yaml:ro
     depends_on:
-      - storage-db
+      - storage-db 
     networks:
       - in.net.ex
+
   # Инструкции для парсера Sbazar
   go-async-sbazar:
     build: ./GoAsyncSbazarParcer/
@@ -28,18 +29,19 @@ services:
       - go-storage
     networks:
       - in.net.ex
+  
+   # Инструкции для парсера Jofogas
+  go-async-jofogas:
+    build: ./GoAsyncJofogasParcer/
+    container_name: jofogas-service.in.net.ex
+    volumes:
+      - ./GoAsyncJofogasParcer/internal/config/config.yaml:/config.yaml:ro
+    depends_on:
+      - go-storage
+    networks:
+      - in.net.ex
 
-  # Сломан!!! 
-  # go-async-wallapop:
-  #   build: ./GoAsyncWallapopParcer/
-  #   container_name: wallapop-service.in.net.ex
-  #   volumes:
-  #     - ./GoAsyncWallapopParcer/internal/config/config.yaml:/config.yaml:ro
-  #   depends_on:
-  #     - go-storage
-  #   networks:
-  #     - in.net.ex
-
+  # Инструкция для базы
   storage-db:
       restart: always
       image: postgres:latest
