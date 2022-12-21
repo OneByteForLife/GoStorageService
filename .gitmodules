@@ -1,6 +1,4 @@
 [submodule "GoAsyncSbazarParcer"]
 	path = GoAsyncSbazarParcer
 	url = https://github.com/nameerror3301/GoAsyncSbazarParcer.git
-[submodule "GoAsyncWallapopParcer"]
-	path = GoAsyncWallapopParcer
-	url = https://github.com/nameerror3301/GoAsyncWallapopParcer.git
+
