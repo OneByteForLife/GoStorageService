@@ -20,15 +20,15 @@ services:
       - in.net.ex
 
   # Инструкции для парсера Sbazar
-  go-async-sbazar:
-    build: ./GoAsyncSbazarParcer/
-    container_name: sbazar-service.in.net.ex
-    volumes:
-      - ./GoAsyncSbazarParcer/internal/config/config.yaml:/config.yaml:ro
-    depends_on:
-      - go-storage
-    networks:
-      - in.net.ex
+  # go-async-sbazar:
+  #   build: ./GoAsyncSbazarParcer/
+  #   container_name: sbazar-service.in.net.ex
+  #   volumes:
+  #     - ./GoAsyncSbazarParcer/internal/config/config.yaml:/config.yaml:ro
+  #   depends_on:
+  #     - go-storage
+  #   networks:
+  #     - in.net.ex
   
   # Инструкции для парсера Jofogas
   go-async-jofogas:
