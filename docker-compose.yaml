@@ -30,12 +30,21 @@ services:
     networks:
       - in.net.ex
   
-   # Инструкции для парсера Jofogas
+  # Инструкции для парсера Jofogas
   go-async-jofogas:
     build: ./GoAsyncJofogasParcer/
     container_name: jofogas-service.in.net.ex
     volumes:
       - ./GoAsyncJofogasParcer/internal/config/config.yaml:/config.yaml:ro
+    depends_on:
+      - go-storage
+    networks:
+      - in.net.ex
+
+  # Инструкция для сервиса по выдаче прокси
+  go-proxy-service:
+    build: ./GoProxyService/
+    container_name: proxy-service.in.net.ex
     depends_on:
       - go-storage
     networks:
