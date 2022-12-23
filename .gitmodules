@@ -5,3 +5,6 @@
 [submodule "GoAsyncJofogasParcer"]
 	path = GoAsyncJofogasParcer
 	url = https://github.com/nameerror3301/GoAsyncJofogasParcer.git
+[submodule "GoProxyService"]
+	path = GoProxyService
+	url = https://github.com/nameerror3301/GoProxyService.git
