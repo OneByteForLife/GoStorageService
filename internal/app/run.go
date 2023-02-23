@@ -1,24 +1,19 @@
 package app
 
 import (
+	"GoStorageService/config"
+	rest "GoStorageService/internal/controllers/rest"
 	"GoStorageService/internal/middleware"
-	"GoStorageService/internal/routes"
+	usecase "GoStorageService/internal/usecase/ads"
+	"GoStorageService/utils/database"
 	"time"
 
 	gojson "github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/sirupsen/logrus"
 )
 
-func SetUpRoutes(app *fiber.App) {
-	v1 := app.Group("/api/v1/")
-	v1.Get("", routes.Home)
-	v1.Post("/add", routes.AddData, middleware.CheckContentType())
-	v1.Get("/get", routes.FindData)
-}
-
-func Run() {
+func Run(conf *config.ConfigDb) error {
 	// Конифгурация сервера
 	app := fiber.New(fiber.Config{
 		JSONDecoder: gojson.Unmarshal,
@@ -27,14 +22,18 @@ func Run() {
 		ReadTimeout:  time.Second * 10,
 		WriteTimeout: time.Second * 10,
 	})
-
 	app.Use(logger.New(), middleware.CheckJwtToken())
 
-	SetUpRoutes(app)
-
-	if err := app.Listen(":8080"); err != nil {
-		logrus.Fatalf("Err up server - %s", err)
+	db, err := database.ConnectDataBase()
+	if err != nil {
+		return err
 	}
 
-	logrus.Info("Service is up!")
+	api := rest.NewHandler(usecase.NewService(usecase.NewStorage(db)))
+	rest.InitApi(app, api)
+
+	if err := app.Listen(":8080"); err != nil {
+		return err
+	}
+	return nil
 }

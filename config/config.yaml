@@ -2,6 +2,6 @@ database:
     username: "postgres"
     host: "storage-db.in.net.ex" 
     port: "5432" 
-    password: "qwerty"
+    password: "admin"
     dbname: "postgres"
     sslmode: "disable" # Не забыть поставить Enable

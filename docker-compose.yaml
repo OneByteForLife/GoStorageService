@@ -13,44 +13,12 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./internal/config/config.yaml:/config.yaml:ro
+      - ./config/config.yaml:/config.yaml:ro
     depends_on:
       - storage-db 
     networks:
       - in.net.ex
 
-  # Инструкции для парсера Sbazar
-  # go-async-sbazar:
-  #   build: ./GoAsyncSbazarParcer/
-  #   container_name: sbazar-service.in.net.ex
-  #   volumes:
-  #     - ./GoAsyncSbazarParcer/internal/config/config.yaml:/config.yaml:ro
-  #   depends_on:
-  #     - go-storage
-  #   networks:
-  #     - in.net.ex
-  
-  # Инструкции для парсера Jofogas
-  go-async-jofogas:
-    build: ./GoAsyncJofogasParcer/
-    container_name: jofogas-service.in.net.ex
-    volumes:
-      - ./GoAsyncJofogasParcer/internal/config/config.yaml:/config.yaml:ro
-    depends_on:
-      - go-storage
-    networks:
-      - in.net.ex
-
-  # Инструкция для сервиса по выдаче прокси
-  go-proxy-service:
-    build: ./GoProxyService/
-    container_name: proxy-service.in.net.ex
-    depends_on:
-      - go-storage
-    networks:
-      - in.net.ex
-
-  # Инструкция для базы
   storage-db:
       restart: always
       image: postgres:latest
@@ -58,7 +26,7 @@ services:
       environment:
         - POSTGRES_DB=postgres
         - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=qwerty
+        - POSTGRES_PASSWORD=admin
         - PGDATA=/var/lib/postgresql/data/pgdata
       ports:
         - 5432:5432

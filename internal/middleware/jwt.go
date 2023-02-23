@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"GoStorageService/internal/controllers/rest"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
@@ -15,5 +16,5 @@ func CheckJwtToken() fiber.Handler {
 }
 
 func jwtError(c *fiber.Ctx, err error) error {
-	return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"api_version": "1.0", "status_code": fiber.StatusUnauthorized, "description": "Incorrect or invalid access token!"})
+	return c.Status(fiber.StatusUnauthorized).JSON(rest.RespStatus("1.0", fiber.StatusUnauthorized, "Incorrect token auth", nil))
 }

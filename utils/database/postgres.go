@@ -1,7 +1,7 @@
 package database
 
 import (
-	"GoStorageService/internal/config"
+	"GoStorageService/config"
 	"database/sql"
 	"fmt"
 

@@ -1,24 +1,18 @@
 package main
 
 import (
+	"GoStorageService/config"
 	"GoStorageService/internal/app"
-	"GoStorageService/internal/database"
-	"GoStorageService/pkg"
+	logs "GoStorageService/utils/log"
 
 	"github.com/sirupsen/logrus"
 )
 
-func init() {
-	pkg.ConfigLog()
-	// Проверка подключения к базе
-}
-
 func main() {
-	if db, err := database.ConnectDataBase(); db == nil || err != nil {
-		logrus.Warnf("No connection to the base was established -%s", err)
-	} else {
-		db.Close()
-	}
+	logs.ConfigLog()
+	conf := config.ReadConfig()
 
-	app.Run()
+	if err := app.Run(conf); err != nil {
+		logrus.Fatalf("fatal run server: %v", err)
+	}
 }
