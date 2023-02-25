@@ -1,5 +1,7 @@
 package validate
 
+import "errors"
+
 // Использовать в проверке параметров запроса
 var (
 	markets map[string][]string = map[string][]string{
@@ -28,22 +30,22 @@ var (
 )
 
 // Проверка параметров URL
-func CheckQueryMarket(market string, category string) bool {
+func CheckQueryMarket(market string, category string) (error, bool) {
 	if market == "" || category == "" {
-		return false
+		return errors.New("error query cannot be empty"), false
 	}
 
 	if len(markets[market]) == 0 {
-		return false
+		return errors.New("error no existing value"), false
 	}
 
 	var status bool = false
 	for _, val := range markets[market] {
 		if val == category {
 			status = true
-			return status
+			return nil, status
 		}
 	}
 
-	return status
+	return errors.New("error no existing value"), status
 }
