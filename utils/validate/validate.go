@@ -28,7 +28,7 @@ var (
 )
 
 // Проверка параметров URL
-func CheckUrlQuery(market string, category string) bool {
+func CheckQueryMarket(market string, category string) bool {
 	if market == "" || category == "" {
 		return false
 	}
