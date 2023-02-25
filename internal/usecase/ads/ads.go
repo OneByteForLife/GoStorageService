@@ -1,9 +1,11 @@
 package usecase
 
+import "GoStorageService/internal/entity"
+
 type (
 	// Для storage
 	Storage interface {
-		Add(name string, category string) error
+		Add(data []entity.Data, name string, category string) error
 	}
 
 	Service interface {

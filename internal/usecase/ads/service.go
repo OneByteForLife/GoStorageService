@@ -24,7 +24,7 @@ func (s *MarketService) Add(payload []byte, name string, category string) error 
 		return errors.New("error parce json obj check")
 	}
 
-	err := s.storage.Add(name, category)
+	err := s.storage.Add(data, name, category)
 	if err != nil {
 		return err
 	}

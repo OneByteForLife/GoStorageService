@@ -19,7 +19,7 @@ func NewHandler(s usecase.Service) Handler {
 func (h *MarketHandler) Add(c *fiber.Ctx) error {
 	name, category := c.Query("name"), c.Query("category")
 
-	if status := validate.CheckUrlQuery(name, category); !status {
+	if status := validate.CheckQueryMarket(name, category); !status {
 		return c.Status(fiber.StatusBadRequest).JSON(RespStatus("1.0", fiber.StatusBadRequest, "invalid url query", nil))
 	}
 
