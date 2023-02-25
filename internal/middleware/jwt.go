@@ -1,9 +1,9 @@
 package middleware
 
 import (
-	"GoStorageService/internal/controllers/rest"
 	"os"
 
+	"clevergo.tech/jsend"
 	"github.com/gofiber/fiber/v2"
 	jwtware "github.com/gofiber/jwt/v2"
 )
@@ -16,5 +16,5 @@ func CheckJwtToken() fiber.Handler {
 }
 
 func jwtError(c *fiber.Ctx, err error) error {
-	return c.Status(fiber.StatusUnauthorized).JSON(rest.RespStatus("1.0", fiber.StatusUnauthorized, "Incorrect token auth", nil))
+	return c.Status(fiber.StatusUnauthorized).JSON(jsend.NewError("Incorrect token auth", fiber.StatusUnauthorized, nil))
 }

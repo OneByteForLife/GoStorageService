@@ -14,6 +14,7 @@ func NewStorage(db *sql.DB) Storage {
 }
 
 func (s *MarketStorage) Add(data []entity.Data, name string, category string) error {
+
 	return nil
 }
 
