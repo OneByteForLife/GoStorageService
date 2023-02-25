@@ -10,6 +10,8 @@ require (
 
 require github.com/lib/pq v1.10.7
 
+require clevergo.tech/jsend v1.1.3 // indirect
+
 require (
 	gopkg.in/yaml.v2 v2.4.0
 	gopkg.in/yaml.v3 v3.0.1 // indirect
