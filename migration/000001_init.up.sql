@@ -1,132 +1,37 @@
-
-CREATE TABLE sbazar_electronics
+CREATE TABLE ads_users
 (
-    id serial not null unique,
-    user_name varchar(255),
-    registration_date varchar(255),
-    phone_number varchar(25),
-    product_name varchar(255),
-    product_photo_url varchar(300),
-    product_price varchar(80),
-    product_description varchar,
-    product_url varchar
+    ad_user_id bigserial,
+    ad_user_name varchar(255),
+    ad_user_registration_date varchar(255),
+    ad_phone_number varchar(25),
+
+    CONSTRAINT PK_ads_users_ad_user_id PRIMARY KEY (ad_user_id)
 );
 
-CREATE TABLE sbazar_clothing
+CREATE TABLE ads
 (
-    id serial not null unique,
-    user_name varchar(255),
-    registration_date varchar(255),
-    phone_number varchar(25),
-    product_name varchar(255),
-    product_photo_url varchar(300),
-    product_price varchar(80),
-    product_description varchar,
-    product_url varchar
+    ad_id bigserial,
+    ad_title varchar(255),
+    ad_photo_url varchar(300),
+    ad_price varchar(80),
+    ad_description text,
+    ad_url varchar,
+    
+    CONSTRAINT PK_ads_ad_id PRIMARY KEY(ad_id)
 );
 
-CREATE TABLE sbazar_hobby
-(
-    id serial not null unique,
-    user_name varchar(255),
-    registration_date varchar(255),
-    phone_number varchar(25),
-    product_name varchar(255),
-    product_photo_url varchar(300),
-    product_price varchar(80),
-    product_description varchar,
-    product_url varchar
-);
 
-CREATE TABLE sbazar_sport
+-- MAIN TABLE
+CREATE TABLE markets
 (
-    id serial not null unique,
-    user_name varchar(255),
-    registration_date varchar(255),
-    phone_number varchar(25),
-    product_name varchar(255),
-    product_photo_url varchar(300),
-    product_price varchar(80),
-    product_description varchar,
-    product_url varchar
-);
+    market_id bigserial,
+    market_name varchar(100) NOT NULL,
+    market_category varchar(100) NOT NULL,
+    fk_ad_user_id bigint, -- Внешний ключ для пользователя
+    fk_ad_id bigint, -- Внешний ключ для товаров
 
-CREATE TABLE sbazar_babymom
-(
-    id serial not null unique,
-    user_name varchar(255),
-    registration_date varchar(255),
-    phone_number varchar(25),
-    product_name varchar(255),
-    product_photo_url varchar(300),
-    product_price varchar(80),
-    product_description varchar,
-    product_url varchar
+    CONSTRAINT PK_markets_market_id PRIMARY KEY (market_id),
+    CONSTRAINT FK_ads_user_ad_user_id FOREIGN KEY (fk_ad_user_id) REFERENCES ads_users(ad_user_id),
+    CONSTRAINT FK_ads_ad_id FOREIGN KEY (fk_ad_id) REFERENCES ads(ad_id)
 );
-
-CREATE TABLE jofogas_electronics
-(
-    id serial not null unique,
-    user_name varchar(255),
-    registration_date varchar(255),
-    phone_number varchar(25),
-    product_name varchar(255),
-    product_photo_url varchar(300),
-    product_price varchar(80),
-    product_description varchar,
-    product_url varchar
-);
-
-CREATE TABLE jofogas_clothing
-(
-    id serial not null unique,
-    user_name varchar(255),
-    registration_date varchar(255),
-    phone_number varchar(25),
-    product_name varchar(255),
-    product_photo_url varchar(300),
-    product_price varchar(80),
-    product_description varchar,
-    product_url varchar
-);
-
-CREATE TABLE jofogas_hobby
-(
-    id serial not null unique,
-    user_name varchar(255),
-    registration_date varchar(255),
-    phone_number varchar(25),
-    product_name varchar(255),
-    product_photo_url varchar(300),
-    product_price varchar(80),
-    product_description varchar,
-    product_url varchar
-);
-
-CREATE TABLE jofogas_sport
-(
-    id serial not null unique,
-    user_name varchar(255),
-    registration_date varchar(255),
-    phone_number varchar(25),
-    product_name varchar(255),
-    product_photo_url varchar(300),
-    product_price varchar(80),
-    product_description varchar,
-    product_url varchar
-);
-
-CREATE TABLE jofogas_babymom
-(
-    id serial not null unique,
-    user_name varchar(255),
-    registration_date varchar(255),
-    phone_number varchar(25),
-    product_name varchar(255),
-    product_photo_url varchar(300),
-    product_price varchar(80),
-    product_description varchar,
-    product_url varchar
-);
-
 
