@@ -21,7 +21,7 @@ services:
 
   storage-db:
       restart: always
-      image: postgres:latest
+      image: postgres:10
       container_name: storage-db.in.net.ex
       environment:
         - POSTGRES_DB=postgres
