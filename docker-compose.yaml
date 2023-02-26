@@ -19,6 +19,10 @@ services:
     networks:
       - in.net.ex
 
+  # В БУДУЩЕМ KAFKA
+
+  # ПАРСЕРЫ ОТ 1 ДО 12 ШТУК
+
   storage-db:
       restart: always
       image: postgres:10
