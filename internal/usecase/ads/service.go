@@ -26,7 +26,8 @@ func (s *MarketService) Add(payload []byte, name string, category string) error 
 
 	err := s.storage.Add(data, name, category)
 	if err != nil {
-		return err
+		logrus.Errorf("error add data: %v", err)
+		return errors.New("error add data, check your json obj")
 	}
 
 	return nil
